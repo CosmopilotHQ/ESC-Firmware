@@ -1,17 +1,9 @@
 cmake_minimum_required(VERSION 3.22)
 
-#
-# This file is generated only once,
-# and is not re-generated if converter is called multiple times.
-#
-# User is free to modify the file as much as necessary
-#
-
 # Setup compiler settings
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS ON)
-
 
 # Define the build type
 if(NOT CMAKE_BUILD_TYPE)
@@ -65,4 +57,17 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
     stm32cubemx
 
     # Add user defined libraries
+)
+
+# Post-build command to generate size information
+add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_SIZE} $<TARGET_FILE:${CMAKE_PROJECT_NAME}>
+    COMMENT "Printing memory usage"
+)
+
+# Add flash target for STM32CubeProgrammer
+add_custom_target(flash
+    COMMAND STM32_Programmer_CLI -c port=SWD -d ${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}.elf
+    DEPENDS ${CMAKE_PROJECT_NAME}
+    COMMENT "Flashing the firmware to the STM32 device"
 )
