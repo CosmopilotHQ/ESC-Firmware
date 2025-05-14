@@ -27,7 +27,7 @@ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32g0xx_hal.h"
+
 #include "stm32g0xx_ll_rcc.h"
 #include "stm32g0xx_ll_bus.h"
 #include "stm32g0xx_ll_system.h"
@@ -36,8 +36,13 @@ extern "C" {
 #include "stm32g0xx_ll_utils.h"
 #include "stm32g0xx_ll_pwr.h"
 #include "stm32g0xx_ll_dma.h"
+#include "stm32g0xx_ll_tim.h"
 #include "stm32g0xx_ll_usart.h"
 #include "stm32g0xx_ll_gpio.h"
+
+#if defined(USE_FULL_ASSERT)
+#include "stm32_assert.h"
+#endif /* USE_FULL_ASSERT */
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -58,8 +63,6 @@ extern "C" {
 /* USER CODE BEGIN EM */
 
 /* USER CODE END EM */
-
-void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
